@@ -4,20 +4,39 @@ const axios = require("axios");
 const rootDir = require("../util/path");
 const router = express.Router();
 
-let current = {};
-let weekly = [];
+let currentWeather = {};
+let currentTemp = 0;
+let perceptionTemp = 0;
+let currentIcon = "";
+let weeklyTemp = [];
+let weeklyIcon = [];
 
 setInterval(
   (function fetchWeather() {
     axios
       .get(
-        "https://api.openweathermap.org/data/2.5/onecall?lat=37.599361&lon=126.865111&exclude=minutely,hourly,alerts&lang=kr&appid=5910598935c677e814cca7ad9d3afa8e"
+        "https://api.openweathermap.org/data/2.5/onecall?lat=37.599361&lon=126.865111&units=metric&exclude=minutely,hourly,alerts&lang=kr&appid=5910598935c677e814cca7ad9d3afa8e"
       )
       .then((res) => {
-        current = { ...res.data.current };
-        weekly = [...res.data.daily];
-        console.log("current: ", current.weather);
-        console.log("weekly: ", weekly);
+        currentTemp = res.data.current.temp;
+        perceptionTemp = res.data.current.feels_like;
+        // 기본적으로 오늘부터 일주일간의 주간 일기예보를 제공
+        // 내일부터 4일 (총 5일간) 의 정보 위해 배열 슬라이싱
+        weeklyTemp = res.data.daily.slice(1, 6).map((el) => el.temp.day);
+        weeklyIcon = res.data.daily
+          .slice(1, 6)
+          .map(
+            (el) =>
+              `http://openweathermap.org/img/wn/${el.weather[0].icon}@2x.png`
+          );
+        currentIcon = `http://openweathermap.org/img/wn/${res.data.current.weather[0].icon}@2x.png`;
+        // 현재온도
+        console.log(currentTemp);
+        // 체감온도
+        console.log(perceptionTemp);
+        console.log(weeklyTemp);
+        console.log(weeklyIcon);
+        console.log(currentIcon);
       });
     return fetchWeather;
   })(),
@@ -27,7 +46,13 @@ setInterval(
 
 router.get("/weather", (req, res) => {
   console.log("weather");
-  res.send(current);
+  res.send({
+    currentTemp: currentTemp,
+    perceptionTemp: perceptionTemp,
+    currentIcon: currentIcon,
+    weeklyTemp: weeklyTemp,
+    weeklyIcon: weeklyIcon,
+  });
 });
 
 module.exports = { router };
