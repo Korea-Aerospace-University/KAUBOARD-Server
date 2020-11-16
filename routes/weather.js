@@ -30,13 +30,6 @@ setInterval(
               `http://openweathermap.org/img/wn/${el.weather[0].icon}@2x.png`
           );
         currentIcon = `http://openweathermap.org/img/wn/${res.data.current.weather[0].icon}@2x.png`;
-        // 현재온도
-        console.log(currentTemp);
-        // 체감온도
-        console.log(perceptionTemp);
-        console.log(weeklyTemp);
-        console.log(weeklyIcon);
-        console.log(currentIcon);
       });
     return fetchWeather;
   })(),
@@ -45,7 +38,6 @@ setInterval(
 );
 
 router.get("/weather", (req, res) => {
-  console.log("weather");
   res.send({
     currentTemp: currentTemp,
     perceptionTemp: perceptionTemp,
