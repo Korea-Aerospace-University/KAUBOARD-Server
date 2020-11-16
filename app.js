@@ -11,5 +11,5 @@ app.use((req, res, next) => {
 });
 
 app.listen(process.env.PORT || 5000, () => {
-  console.log("server is at 5000");
+  console.log(`server is at ${process.env.PORT}`);
 });
