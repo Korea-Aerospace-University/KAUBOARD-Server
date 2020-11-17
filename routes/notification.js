@@ -45,63 +45,66 @@ const getSchoolNoti = async () => {
   }
 };
 
-getGeneralNoti().then((res) => {
-  let decoded = iconv.decode(res.data, "EUC-KR");
-  const $ = cheerio.load(decoded);
-  const notiTable = $("#board_form > div.board_list > table > tbody");
-  for (let i = 0; i < notiTable.children().length; i++) {
-    let content = notiTable
-      .children()
-      .eq(i)
-      .text()
-      .trim()
-      .replace(/\s\s+/g, " ");
+setInterval(() => {
+  // 60초마다 학사공지 / 일반공지 읽어옴
+  getGeneralNoti().then((res) => {
+    let decoded = iconv.decode(res.data, "EUC-KR");
+    const $ = cheerio.load(decoded);
+    const notiTable = $("#board_form > div.board_list > table > tbody");
+    for (let i = 0; i < notiTable.children().length; i++) {
+      let content = notiTable
+        .children()
+        .eq(i)
+        .text()
+        .trim()
+        .replace(/\s\s+/g, " ");
 
-    let timeStamp = new Date(
-      content.slice(
-        content.lastIndexOf("-") - 7,
-        content.lastIndexOf("-") + 3
-      ) + " 12:00:00"
-    ).getTime();
-    generalNotiList = [
-      ...generalNotiList,
-      {
-        content: parseNoti(content.slice(0, content.lastIndexOf("-") - 8)),
-        date: timeStamp,
-      },
-    ];
-  }
-  generalNotiList.sort((item1, item2) => (item1.date < item2.date ? 1 : -1));
-});
+      let timeStamp = new Date(
+        content.slice(
+          content.lastIndexOf("-") - 7,
+          content.lastIndexOf("-") + 3
+        ) + " 12:00:00"
+      ).getTime();
+      generalNotiList = [
+        ...generalNotiList,
+        {
+          content: parseNoti(content.slice(0, content.lastIndexOf("-") - 8)),
+          date: timeStamp,
+        },
+      ];
+    }
+    generalNotiList.sort((item1, item2) => (item1.date < item2.date ? 1 : -1));
+  });
 
-getSchoolNoti().then((res) => {
-  let decoded = iconv.decode(res.data, "EUC-KR");
-  const $ = cheerio.load(decoded);
-  const notiTable = $("#board_form > div.board_list > table > tbody");
-  for (let i = 0; i < notiTable.children().length; i++) {
-    let content = notiTable
-      .children()
-      .eq(i)
-      .text()
-      .trim()
-      .replace(/\s\s+/g, " ");
+  getSchoolNoti().then((res) => {
+    let decoded = iconv.decode(res.data, "EUC-KR");
+    const $ = cheerio.load(decoded);
+    const notiTable = $("#board_form > div.board_list > table > tbody");
+    for (let i = 0; i < notiTable.children().length; i++) {
+      let content = notiTable
+        .children()
+        .eq(i)
+        .text()
+        .trim()
+        .replace(/\s\s+/g, " ");
 
-    let timeStamp = new Date(
-      content.slice(
-        content.lastIndexOf("-") - 7,
-        content.lastIndexOf("-") + 3
-      ) + " 12:00:00"
-    ).getTime();
-    schoolNotiList = [
-      ...schoolNotiList,
-      {
-        content: parseNoti(content.slice(0, content.lastIndexOf("-") - 8)),
-        date: timeStamp,
-      },
-    ];
-  }
-  schoolNotiList.sort((item1, item2) => (item1.date < item2.date ? 1 : -1));
-});
+      let timeStamp = new Date(
+        content.slice(
+          content.lastIndexOf("-") - 7,
+          content.lastIndexOf("-") + 3
+        ) + " 12:00:00"
+      ).getTime();
+      schoolNotiList = [
+        ...schoolNotiList,
+        {
+          content: parseNoti(content.slice(0, content.lastIndexOf("-") - 8)),
+          date: timeStamp,
+        },
+      ];
+    }
+    schoolNotiList.sort((item1, item2) => (item1.date < item2.date ? 1 : -1));
+  });
+}, 600000);
 
 router.get("/notification", (req, res) => {
   res.send({

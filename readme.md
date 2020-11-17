@@ -1,0 +1,1 @@
+헤로쿠 배포하기 전에 `package.json` 파일 "start": "node app.js" 로 고쳐놓기
