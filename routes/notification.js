@@ -47,6 +47,7 @@ const getSchoolNoti = async () => {
 
 // 즉시 실행
 getGeneralNoti().then((res) => {
+  let tempGeneralNotiList = [];
   let decoded = iconv.decode(res.data, "EUC-KR");
   const $ = cheerio.load(decoded);
   const notiTable = $("#board_form > div.board_list > table > tbody");
@@ -64,18 +65,22 @@ getGeneralNoti().then((res) => {
         content.lastIndexOf("-") + 3
       ) + " 12:00:00"
     ).getTime();
-    generalNotiList = [
-      ...generalNotiList,
+    tempGeneralNotiList = [
+      ...tempGeneralNotiList,
       {
         content: parseNoti(content.slice(0, content.lastIndexOf("-") - 8)),
         date: timeStamp,
       },
     ];
   }
-  generalNotiList.sort((item1, item2) => (item1.date < item2.date ? 1 : -1));
+  tempGeneralNotiList.sort((item1, item2) =>
+    item1.date < item2.date ? 1 : -1
+  );
+  generalNotiList = tempGeneralNotiList;
 });
 
 getSchoolNoti().then((res) => {
+  let tempSchoolNotiList = [];
   let decoded = iconv.decode(res.data, "EUC-KR");
   const $ = cheerio.load(decoded);
   const notiTable = $("#board_form > div.board_list > table > tbody");
@@ -93,20 +98,22 @@ getSchoolNoti().then((res) => {
         content.lastIndexOf("-") + 3
       ) + " 12:00:00"
     ).getTime();
-    schoolNotiList = [
-      ...schoolNotiList,
+    tempSchoolNotiList = [
+      ...tempSchoolNotiList,
       {
         content: parseNoti(content.slice(0, content.lastIndexOf("-") - 8)),
         date: timeStamp,
       },
     ];
   }
-  schoolNotiList.sort((item1, item2) => (item1.date < item2.date ? 1 : -1));
+  tempSchoolNotiList.sort((item1, item2) => (item1.date < item2.date ? 1 : -1));
+  schoolNotiList = tempSchoolNotiList;
 });
 
 setInterval(() => {
   // 60초마다 학사공지 / 일반공지 읽어옴
   getGeneralNoti().then((res) => {
+    let tempGeneralNotiList = [];
     let decoded = iconv.decode(res.data, "EUC-KR");
     const $ = cheerio.load(decoded);
     const notiTable = $("#board_form > div.board_list > table > tbody");
@@ -124,18 +131,22 @@ setInterval(() => {
           content.lastIndexOf("-") + 3
         ) + " 12:00:00"
       ).getTime();
-      generalNotiList = [
-        ...generalNotiList,
+      tempGeneralNotiList = [
+        ...tempGeneralNotiList,
         {
           content: parseNoti(content.slice(0, content.lastIndexOf("-") - 8)),
           date: timeStamp,
         },
       ];
     }
-    generalNotiList.sort((item1, item2) => (item1.date < item2.date ? 1 : -1));
+    tempGeneralNotiList.sort((item1, item2) =>
+      item1.date < item2.date ? 1 : -1
+    );
+    generalNotiList = tempGeneralNotiList;
   });
 
   getSchoolNoti().then((res) => {
+    let tempSchoolNotiList = [];
     let decoded = iconv.decode(res.data, "EUC-KR");
     const $ = cheerio.load(decoded);
     const notiTable = $("#board_form > div.board_list > table > tbody");
@@ -153,23 +164,28 @@ setInterval(() => {
           content.lastIndexOf("-") + 3
         ) + " 12:00:00"
       ).getTime();
-      schoolNotiList = [
-        ...schoolNotiList,
+      tempSchoolNotiList = [
+        ...tempSchoolNotiList,
         {
           content: parseNoti(content.slice(0, content.lastIndexOf("-") - 8)),
           date: timeStamp,
         },
       ];
     }
-    schoolNotiList.sort((item1, item2) => (item1.date < item2.date ? 1 : -1));
+    tempSchoolNotiList.sort((item1, item2) =>
+      item1.date < item2.date ? 1 : -1
+    );
+    schoolNotiList = tempSchoolNotiList;
   });
-}, 600000);
+  console.log(schoolNotiList, generalNotiList);
+}, 5000);
 
 router.get("/notification", (req, res) => {
   res.send({
     schoolNotiList: schoolNotiList,
     generalNotiList: generalNotiList,
   });
+  schoolNotiList = [];
 });
 
 module.exports = { router };
