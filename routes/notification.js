@@ -185,7 +185,6 @@ router.get("/notification", (req, res) => {
     schoolNotiList: schoolNotiList,
     generalNotiList: generalNotiList,
   });
-  schoolNotiList = [];
 });
 
 module.exports = { router };
