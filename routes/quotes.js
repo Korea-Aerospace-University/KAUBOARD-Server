@@ -301,10 +301,15 @@ const quotes = [
   },
 ];
 
+console.log({
+  todayQuote: quotes[day % quotes.length].quote,
+  todaySpeaker: quotes[day % quotes.length].speaker,
+});
+
 router.get("/quotes", (req, res) => {
   res.send({
-    todayQuote: quotes[day / quotes.length].quote,
-    todaySpeaker: quotes[day / quotes.length].speaker,
+    todayQuote: quotes[day % quotes.length].quote,
+    todaySpeaker: quotes[day % quotes.length].speaker,
   });
 });
 
