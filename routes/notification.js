@@ -177,8 +177,7 @@ setInterval(() => {
     );
     schoolNotiList = tempSchoolNotiList;
   });
-  console.log(schoolNotiList, generalNotiList);
-}, 5000);
+}, 3600000);
 
 router.get("/notification", (req, res) => {
   res.send({
