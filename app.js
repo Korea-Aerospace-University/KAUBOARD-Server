@@ -18,6 +18,6 @@ app.use((req, res, next) => {
   res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
 });
 
-app.listen(5000, () => {
+app.listen(process.env.PORT, () => {
   console.log(`server is at ${process.env.PORT}`);
 });
