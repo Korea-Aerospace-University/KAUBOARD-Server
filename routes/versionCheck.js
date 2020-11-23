@@ -5,7 +5,7 @@ const router = express.Router();
 
 const currentVersion = "1.0.0";
 
-router.get("/versionCheck", (req, res) => {
+router.get("/checkVersion", (req, res) => {
   res.send({
     currentVersion: currentVersion,
   });
