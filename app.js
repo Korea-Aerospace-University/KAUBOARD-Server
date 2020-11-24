@@ -28,7 +28,7 @@ startKeepAlive();
 function startKeepAlive() {
   setInterval(function () {
     const options = {
-      host: "https://calm-mesa-43659.herokuapp.com/",
+      host: "https://calm-mesa-43659.herokuapp.com/weather",
       port: 80,
       path: "/",
     };
