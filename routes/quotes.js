@@ -4,11 +4,11 @@ const router = express.Router();
 const axios = require("axios");
 
 let today = new Date();
+console.log(today.getHours());
 let day = Math.ceil((today - new Date(today.getFullYear(), 0, 1)) / 86400000);
 
 setInterval(() => {
   day = Math.ceil((today - new Date(today.getFullYear(), 0, 1)) / 86400000);
-  console.log(day);
 }, 3600000);
 
 const quotes = [
@@ -306,7 +306,6 @@ const quotes = [
     speaker: "아이작 뉴턴",
   },
 ];
-
 router.get("/quotes", (req, res) => {
   res.send({
     todayQuote: quotes[day % quotes.length].quote,
