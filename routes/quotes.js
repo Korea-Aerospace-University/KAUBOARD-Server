@@ -3,8 +3,14 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 
-const today = new Date();
-const day = Math.ceil((today - new Date(today.getFullYear(), 0, 1)) / 86400000);
+let today = new Date();
+let day = Math.ceil((today - new Date(today.getFullYear(), 0, 1)) / 86400000);
+
+setInterval(() => {
+  day = Math.ceil((today - new Date(today.getFullYear(), 0, 1)) / 86400000);
+  console.log(day);
+}, 3600000);
+
 const quotes = [
   { quote: "삶이 있는 한 희망은 있다.", speaker: "키케로" },
   { quote: "산다는 것, 그것은 치열한 전투이다.", speaker: "로맹 로랑" },
