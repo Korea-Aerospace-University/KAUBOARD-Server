@@ -1,15 +1,16 @@
-const path = require("path");
 const express = require("express");
 const router = express.Router();
-const axios = require("axios");
 
-let today = new Date();
-console.log(today.getHours());
-let day = Math.ceil((today - new Date(today.getFullYear(), 0, 1)) / 86400000);
+let day;
 
-setInterval(() => {
+const getTodayIndex = () => {
+  let today = new Date();
   day = Math.ceil((today - new Date(today.getFullYear(), 0, 1)) / 86400000);
-}, 3600000);
+  console.log(day);
+};
+
+getTodayIndex();
+setInterval(getTodayIndex, 30 * 60 * 1000);
 
 const quotes = [
   { quote: "삶이 있는 한 희망은 있다.", speaker: "키케로" },
