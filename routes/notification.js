@@ -59,7 +59,7 @@ getGeneralNoti();
 setInterval(() => {
   getSchoolNoti();
   getGeneralNoti();
-}, 5000);
+}, 600000);
 
 router.get("/notification", (req, res) => {
   res.send({
