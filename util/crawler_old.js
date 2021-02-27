@@ -1,3 +1,4 @@
+// 이 파일은 2021년 2월 27일 기준 구 홈페이지 공지사항을 크롤링합니다.
 const axios = require("axios");
 const cheerio = require("cheerio");
 const iconv = require("iconv-lite");
