@@ -6,7 +6,6 @@ let day;
 const getTodayIndex = () => {
   let today = new Date();
   day = Math.ceil((today - new Date(today.getFullYear(), 0, 1)) / 86400000);
-  console.log(day);
 };
 
 getTodayIndex();
