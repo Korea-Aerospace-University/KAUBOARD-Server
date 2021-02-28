@@ -5,10 +5,10 @@ const router = express.Router();
 let seoul = [];
 let gyeonggi = [];
 // temp 값으로는 빌드일의 확진자수 적어주기
-let seoulTemp = 120;
-let gyeonggiTemp = 142;
-let seoulDiff = { diff: "increase", count: 0 };
-let gyeonggiDiff = { diff: "increase", count: 0 };
+let seoulBefore = 120;
+let gyeonggiBefore = 142;
+let seoulDiff = { diff: "unchanged", count: 0 };
+let gyeonggiDiff = { diff: "unchanged", count: 0 };
 
 const host = "https://api.corona-19.kr/korea/country/new";
 const serviceKey = "serviceKey=sJrgb8qWVz9IkdtxTvMwRmXnFLZ2PKU14";
@@ -19,31 +19,35 @@ const getVirusData = async () => {
   seoul = virusInfo.data.seoul;
   gyeonggi = virusInfo.data.gyeonggi;
 
-  if (Number(seoul.newCase) - seoulTemp !== 0) {
-    if (Number(seoul.newCase) - seoulTemp > 0) {
+  if (Number(seoul.newCase) - seoulBefore !== 0) {
+    if (Number(seoul.newCase) - seoulBefore > 0) {
       seoulDiff = {
         diff: "increase",
-        count: Math.abs(Number(seoul.newCase) - seoulTemp > 0),
+        count: Math.abs(Number(seoul.newCase) - seoulBefore),
       };
     } else {
       seoulDiff = {
         diff: "decrease",
-        count: Math.abs(Number(seoul.newCase) - seoulTemp > 0),
+        count: Math.abs(Number(seoul.newCase) - seoulBefore),
       };
     }
+  } else {
+    seoulDiff = { diff: "unchanged", count: 0 };
   }
-  if (Number(gyeonggi.newCase) - gyeonggiTemp !== 0) {
-    if (Number(gyeonggi.newCase) - gyeonggiTemp > 0) {
+  if (Number(gyeonggi.newCase) - gyeonggiBefore !== 0) {
+    if (Number(gyeonggi.newCase) - gyeonggiBefore > 0) {
       gyeonggiDiff = {
         diff: "increase",
-        count: Math.abs(Number(gyeonggi.newCase) - gyeonggiTemp > 0),
+        count: Math.abs(Number(gyeonggi.newCase) - gyeonggiBefore),
       };
     } else {
       gyeonggiDiff = {
         diff: "decrease",
-        count: Math.abs(Number(gyeonggi.newCase) - gyeonggiTemp > 0),
+        count: Math.abs(Number(gyeonggi.newCase) - gyeonggiBefore),
       };
     }
+  } else {
+    seoulDiff = { diff: "unchanged", count: 0 };
   }
 };
 
