@@ -7,8 +7,8 @@ let gyeonggi = [];
 // temp 값으로는 빌드일의 확진자수 적어주기
 let seoulBefore = 120;
 let gyeonggiBefore = 142;
-let seoulDiff = { diff: "unchanged", count: 0 };
-let gyeonggiDiff = { diff: "unchanged", count: 0 };
+let seoulDiff = { diff: "decrease", count: 28 };
+let gyeonggiDiff = { diff: "increase", count: 18 };
 
 const host = "https://api.corona-19.kr/korea/country/new";
 const serviceKey = "serviceKey=sJrgb8qWVz9IkdtxTvMwRmXnFLZ2PKU14";
@@ -53,9 +53,8 @@ const getVirusData = async () => {
 
 getVirusData();
 
-// 3시간마다 업데이트
-setInterval(getVirusData, 10800000);
-
+// 1시간마다 업데이트36000000
+setInterval(getVirusData, 3600000);
 router.get("/virus", (req, res) => {
   res.send({ seoul, gyeonggi, seoulDiff, gyeonggiDiff });
 });
