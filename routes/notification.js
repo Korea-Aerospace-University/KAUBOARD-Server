@@ -17,7 +17,7 @@ const getGeneralNoti = async () => {
       "https://www.kau.ac.kr/web/bbs/bbsListApi.gen",
       {
         siteFlag: "www",
-        bbsId: "0120",
+        bbsId: "0119",
         pageIndex: 1,
         bbsAuth: "30",
       }
@@ -38,7 +38,7 @@ const getSchoolNoti = async () => {
       "https://www.kau.ac.kr/web/bbs/bbsListApi.gen",
       {
         siteFlag: "www",
-        bbsId: "0119",
+        bbsId: "0120",
         pageIndex: 1,
         bbsAuth: "30",
       }
