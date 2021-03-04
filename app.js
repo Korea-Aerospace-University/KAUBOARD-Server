@@ -2,7 +2,7 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const http = require("http");
-const notiRouter = require("./routes/notification");
+const notiRouter = require("./routes/notification_new");
 const weatherRouter = require("./routes/weather");
 const quoteRouter = require("./routes/quotes");
 const versionRouter = require("./routes/checkVersion");
@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 
 const PORT = process.env.PORT;
 
-app.listen(PORT || 5000, () => {
+app.listen(PORT, () => {
   console.log(`server is at ${process.env.PORT}`);
 });
 

@@ -15,7 +15,7 @@ const compareByDate = (itemA, itemB) => {
 
 const getGeneralNoti = async () => {
   try {
-    const res = await axios.post(
+    const res1 = await axios.post(
       "https://www.kau.ac.kr/web/bbs/bbsListApi.gen",
       {
         siteFlag: "www",
@@ -24,8 +24,23 @@ const getGeneralNoti = async () => {
         bbsAuth: "30",
       }
     );
-    generalNotiList = res.data.resultList
-      .map((el) => el)
+    tempGeneralNotiList = res1.data.resultList.map((el) => el);
+
+    const res2 = await axios.post(
+      "https://www.kau.ac.kr/web/bbs/bbsListApi.gen",
+      {
+        siteFlag: "www",
+        bbsId: "0119",
+        pageIndex: 2,
+        bbsAuth: "30",
+      }
+    );
+    tempGeneralNotiList = [
+      ...tempGeneralNotiList,
+      ...res2.data.resultList.map((el) => el),
+    ];
+
+    generalNotiList = tempGeneralNotiList
       .sort(compareByDate)
       .map((el) => el.nttSj)
       .slice(0, 5);
@@ -36,7 +51,7 @@ const getGeneralNoti = async () => {
 
 const getSchoolNoti = async () => {
   try {
-    const res = await axios.post(
+    const res1 = await axios.post(
       "https://www.kau.ac.kr/web/bbs/bbsListApi.gen",
       {
         siteFlag: "www",
@@ -45,8 +60,23 @@ const getSchoolNoti = async () => {
         bbsAuth: "30",
       }
     );
-    schoolNotiList = res.data.resultList
-      .map((el) => el)
+    schoolNotiList = res1.data.resultList.map((el) => el);
+
+    const res2 = await axios.post(
+      "https://www.kau.ac.kr/web/bbs/bbsListApi.gen",
+      {
+        siteFlag: "www",
+        bbsId: "0120",
+        pageIndex: 2,
+        bbsAuth: "30",
+      }
+    );
+    tempSchoolNotiList = [
+      ...tempSchoolNotiList,
+      ...res2.data.resultList.map((el) => el),
+    ];
+
+    schoolNotiList = tempSchoolNotiList
       .sort(compareByDate)
       .map((el) => el.nttSj)
       .slice(0, 5);

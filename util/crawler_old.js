@@ -51,7 +51,7 @@ setInterval(() => {
       let content = notiTable
         .children()
         .eq(i)
-        .text()
+        .text() 
         .trim()
         .replace(/\s\s+/g, " ");
 
@@ -61,6 +61,7 @@ setInterval(() => {
           content.lastIndexOf("-") + 3
         ) + " 12:00:00"
       ).getTime();
+      
       generalNotiList = [
         ...generalNotiList,
         {
