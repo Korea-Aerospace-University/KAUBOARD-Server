@@ -60,7 +60,7 @@ const getSchoolNoti = async () => {
         bbsAuth: "30",
       }
     );
-    schoolNotiList = res1.data.resultList.map((el) => el);
+    tempSchoolNotiList = res1.data.resultList.map((el) => el);
 
     const res2 = await axios.post(
       "https://www.kau.ac.kr/web/bbs/bbsListApi.gen",
