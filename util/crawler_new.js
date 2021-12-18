@@ -1,11 +1,9 @@
-const express = require("express");
+// 이 파일은 2021년 2월 27일 기준 새로운 홈페이지 공지사항을 크롤링합니다.
 const axios = require("axios");
-const router = express.Router();
 
 let generalNotiList = [];
 let schoolNotiList = [];
-let tempGeneralNotiList = [];
-let tempSchoolNotiList = [];
+let msg = "hello";
 
 const compareByDate = (itemA, itemB) => {
   if (itemA.frstRegisterPnttm > itemB.frstRegisterPnttm) {
@@ -19,7 +17,7 @@ const getGeneralNoti = async () => {
       "https://www.kau.ac.kr/web/bbs/bbsListApi.gen",
       {
         siteFlag: "www",
-        bbsId: "0119",
+        bbsId: "0120",
         pageIndex: 1,
         bbsAuth: "30",
       }
@@ -40,7 +38,7 @@ const getSchoolNoti = async () => {
       "https://www.kau.ac.kr/web/bbs/bbsListApi.gen",
       {
         siteFlag: "www",
-        bbsId: "0120",
+        bbsId: "0119",
         pageIndex: 1,
         bbsAuth: "30",
       }
@@ -61,13 +59,9 @@ getGeneralNoti();
 setInterval(() => {
   getSchoolNoti();
   getGeneralNoti();
-}, 600000);
+}, 5000);
 
-router.get("/notification", (req, res) => {
-  res.send({
-    schoolNotiList,
-    generalNotiList,
-  });
-});
-
-module.exports = { router };
+exports = {
+  schoolNotiList: schoolNotiList,
+  generalNotiList: generalNotiList,
+};
